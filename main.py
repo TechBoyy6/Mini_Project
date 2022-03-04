@@ -9,8 +9,7 @@ from webScrapping import fetchDetails
 
 
 app = Flask(__name__)
-client = pymongo.MongoClient(
-    "mongodb+srv://admin:admin@cluster0.lifk8.mongodb.net/test")
+client = pymongo.MongoClient(MongoDB_URL)
 db = client.get_database('Carpool')
 data = db['Clients']
 USER_ID = ''
