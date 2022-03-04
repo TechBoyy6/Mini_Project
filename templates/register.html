@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>/aRide</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
+    <script src="{{ url_for('static', filename='js/main.js')}}?ver=2" type="text/javascript"></script>
+    <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+    {% if location_error %}
+    <div class="alert-danger" role="alert">
+        <strong>{{location_error}}</strong>
+    </div>
+    {% endif %}
+    <div class="container">
+        <div class="login-content">
+            <form action='/{{ActionType}}' method="post">
+                <img src="{{ url_for('static', filename='img/avatar.svg')}}">
+                <h2 class="title">{{ActionType}}</h2>
+                {% if ActionType=='REGISTER' %}
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="div">
+                            <input type="text" class="input" placeholder="Username" name="username" required />
+                        </div>
+                    </div>
+
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-mars"></i>
+                        </div>
+                        <div class="div">
+                            <input type="text" class="input" placeholder="Gender" name="gender" required />
+                        </div>
+                    </div>
+                    
+                    <div >
+                        <select type="text" class="input" placeholder="Owner/Traveller" name="user_type" required >
+                            <option value="traveller">Traveller</option>
+                            <option value="owner" onClick="{{ url_for('bs') }}">Owner</option>
+                        </select>
+                    </div>
+
+                    <div class="input-div one">
+                        <div class="i">
+                            <i class="fas fa-id-card"></i>
+                        </div>
+                        <div class="div">
+                            <input type="text" class="input" placeholder="Your Name" name="name" disabled />
+                        </div>
+                    </div>
+                    <div id="ownerDetailsDiv" style="display:none;">
+                        <div class="input-div one">
+                            <div class="i">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="div">
+                                <input type="text" class="input" placeholder="Registeration No." name="reg_no" disabled />
+                            </div>
+                        </div>
+                        <div class="input-div one">
+                            <div class="i">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="div">
+                                <input type="text" class="input" placeholder="Fuel Type" name="fuel_type" disabled />
+                            </div>
+                        </div>
+                        <div class="input-div one">
+                            <div class="i">
+                                <i class="fas fa-id-card"></i>
+                            </div>
+                            <div class="div">
+                                <input type="text" class="input" placeholder="Insurance Date" name="insurance_date" disabled />
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-calendar"></i>
+                    </div>
+                    <div class="div">
+                        <input type="number" class="input" placeholder="Age" name="age" value="{{ user_data['age'] }}" required />
+                    </div>
+                </div>
+
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-envelope"></i>
+                    </div>
+                    <div class="div">
+                        <input type="email" class="input" placeholder="Email" name="email" value="{{ user_data['email'] }}" required />
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-phone"></i>
+                    </div>
+                    <div class="div">
+                        <input type="number" class="input" placeholder="Phone" name="phone" value="{{ user_data['mobile'] }}" required />
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-map-marker"></i>
+                    </div>
+                    <div class="div">
+                        <input type="text" class="input" placeholder="From: Chembur Railway Station" name="from" value="{{ user_data['from_loc'] }}" required />
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-location-arrow"></i>
+                    </div>
+                    <div class="div">
+                        <input type="text" class="input" placeholder="To: Panvel Orient Mall" name="to" value="{{ user_data['to_loc'] }}" required />
+                    </div>
+                </div>
+                <div class="input-div pass">
+                    <div class="i">
+                        <i class="fas fa-lock"></i>
+                    </div>
+                    <div class="div">
+                        <input type="password" class="input" placeholder="Password" name="password" value="{{ user_data['password'] }}" required />
+                    </div>
+                </div>
+
+                {% if ActionType=='REGISTER' %}
+                    <input type="submit" class="btn" value="Register">
+                {% endif %}
+                {% if ActionType=='UPDATE' %}
+                    <input type="submit" class="btn" value="Update">
+                {% endif %}
+                
+                <a class="reg_link" href="/login">
+                    <h3>Back to Login</h3>
+                <a/>
+            </form>
+        </div>
+        <iframe id="external_site" src="https://rtovehicleinfo.onlineseva.xyz/rtovehicle.php" width="800" height="550" style="display:none;" onmouseenter="window.location.href='{{ url_for('bs') }}';"/>
+    </div>
+</body>
+</html>
