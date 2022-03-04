@@ -9,7 +9,6 @@ def fetchDetails():
         browser = pw.chromium.launch(headless=False, slow_mo=50)
         page = browser.new_page()
         page.goto('https://rtovehicleinfo.onlineseva.xyz/rtovehicle.php')
-        page.fill('input[name=vehicle_number]', 'MH06BY2703')
         page.locator('#card_details').wait_for(timeout=0)
 
         details['reg_no'] = page.query_selector(
@@ -22,6 +21,3 @@ def fetchDetails():
             '//html/body/div/div/div[12]/div[2]/p').inner_text()
 
     return details
-
-
-fetchDetails()
