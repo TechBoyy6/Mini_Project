@@ -21,7 +21,7 @@
 						<div class="row no-gutters" style="background: #fafafa;">
 							<div class="col-md-6">
 								<div class="contact-wrap w-100 p-lg-5 p-4">
-									<a href="{{ travelVal['map_url'] }}"><img src="{{ url_for('static', filename='img/Map_img.png')}}" width="100%"></a>
+									<a href="{{ travelVal['map_url']}}"><img src="{{ url_for('static', filename='img/Map_img.png')}}" width="100%"></a>
 								</div>
 							</div>
 							<div class="col-md-6 d-flex align-items-stretch">
@@ -43,15 +43,6 @@
 				        		</div>
 				        		<div class="text pl-3">
 					            <p><span>Avg travel duration: </span>{{ travelVal['timeTaken'] }} hr</p>
-					          </div>
-				          	</div>
-
-							<div class="dbox w-100 d-flex align-items-center">
-				        		<div class="icon d-flex align-items-center justify-content-center">
-				        			<span class="fa fa-clock-o"></span>
-				        		</div>
-				        		<div class="text pl-3">
-					            <p><span>Avg travel cost: </span>{{ travelVal['cost'] }} Rs.</p>
 					          </div>
 				          	</div>
 

@@ -4,10 +4,8 @@
 <head>
     <title>/aRide</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/login.css')}}">
-    <script src="{{ url_for('static', filename='js/main.js')}}?ver=2" type="text/javascript"></script>
     <link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
     <script src="https://kit.fontawesome.com/a81368914c.js"></script>
-    
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 
@@ -19,85 +17,74 @@
     {% endif %}
     <div class="container">
         <div class="login-content">
-            <form action='/{{ActionType}}' method="post">
+            <form action='{{url_for("register")}}' method="get">
                 <img src="{{ url_for('static', filename='img/avatar.svg')}}">
-                <h2 class="title">{{ActionType}}</h2>
-                {% if ActionType=='REGISTER' %}
-                    <div class="input-div one">
-                        <div class="i">
-                            <i class="fas fa-user"></i>
-                        </div>
-                        <div class="div">
-                            <input type="text" class="input" placeholder="Username" name="username" required />
-                        </div>
-                    </div>
 
-                    <div class="input-div one">
-                        <div class="i">
-                            <i class="fas fa-mars"></i>
-                        </div>
-                        <div class="div">
-                            <input type="text" class="input" placeholder="Gender" name="gender" required />
-                        </div>
+                <h2 class="title">Register</h2>
+
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user"></i>
                     </div>
-                    
-                    <div >
-                        <select type="text" class="input" placeholder="Owner/Traveller" name="user_type" required >
-                            <option value="traveller">Traveller</option>
-                            <option value="owner" onClick="{{ url_for('bs') }}">Owner</option>
+                    <div class="div">
+                        <input type="text" class="input" placeholder="Username" name="username" required />
+                    </div>
+                </div>
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-id-card"></i>
+                    </div>
+                    <div class="div">
+                        <input type="text" class="input" placeholder="Your Name" name="name" required />
+                    </div>
+                </div>
+
+                <!--div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="div"-->
+                        <!--input type="text" class="input" placeholder="Traveller/Owner" name="user_type" required -->
+                        <!--select name="user_type">
+                            <option value ="traveller">Traveller</option>
+                            <a href="/fetch">
+                            <option value ="owner" >Owner</option>
+                            </a>
                         </select>
                     </div>
+                </div-->
+                <div class="div">
+                    <!--input type="text" class="input" placeholder="Traveller/Owner" name="user_type" required -->
+                    <select name="user_type" onchange="location = this.value">
+                        <option value ="traveller">Traveller</option>
 
-                    <div class="input-div one">
-                        <div class="i">
-                            <i class="fas fa-id-card"></i>
-                        </div>
-                        <div class="div">
-                            <input type="text" class="input" placeholder="Your Name" name="name" disabled />
-                        </div>
+                        <option value ="/fetch" >Owner</option>
+                        
+                    </select>
+                </div>
+
+                <div class="input-div one">
+                    <div class="i">
+                        <i class="fas fa-mars"></i>
                     </div>
-                    <div id="ownerDetailsDiv" style="display:none;">
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-id-card"></i>
-                            </div>
-                            <div class="div">
-                                <input type="text" class="input" placeholder="Registeration No." name="reg_no" disabled />
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-id-card"></i>
-                            </div>
-                            <div class="div">
-                                <input type="text" class="input" placeholder="Fuel Type" name="fuel_type" disabled />
-                            </div>
-                        </div>
-                        <div class="input-div one">
-                            <div class="i">
-                                <i class="fas fa-id-card"></i>
-                            </div>
-                            <div class="div">
-                                <input type="text" class="input" placeholder="Insurance Date" name="insurance_date" disabled />
-                            </div>
-                        </div>
+                    <div class="div">
+                        <input type="text" class="input" placeholder="Gender" name="gender" required />
                     </div>
-                {% endif %}
+                </div>
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-calendar"></i>
                     </div>
                     <div class="div">
-                        <input type="number" class="input" placeholder="Age" name="age" value="{{ user_data['age'] }}" required />
+                        <input type="text" class="input" placeholder="Age" name="age" required />
                     </div>
                 </div>
-
                 <div class="input-div one">
                     <div class="i">
                         <i class="fas fa-envelope"></i>
                     </div>
                     <div class="div">
-                        <input type="email" class="input" placeholder="Email" name="email" value="{{ user_data['email'] }}" required />
+                        <input type="email" class="input" placeholder="Email" name="email" required />
                     </div>
                 </div>
                 <div class="input-div one">
@@ -105,7 +92,7 @@
                         <i class="fas fa-phone"></i>
                     </div>
                     <div class="div">
-                        <input type="number" class="input" placeholder="Phone" name="phone" value="{{ user_data['mobile'] }}" required />
+                        <input type="tel" class="input" placeholder="Phone" name="phone" required />
                     </div>
                 </div>
                 <div class="input-div one">
@@ -113,7 +100,8 @@
                         <i class="fas fa-map-marker"></i>
                     </div>
                     <div class="div">
-                        <input type="text" class="input" placeholder="From: Chembur Railway Station" name="from" value="{{ user_data['from_loc'] }}" required />
+                        <input type="text" class="input" placeholder="From: Chembur Railway Station" name="from"
+                            required />
                     </div>
                 </div>
                 <div class="input-div one">
@@ -121,7 +109,7 @@
                         <i class="fas fa-location-arrow"></i>
                     </div>
                     <div class="div">
-                        <input type="text" class="input" placeholder="To: Panvel Orient Mall" name="to" value="{{ user_data['to_loc'] }}" required />
+                        <input type="text" class="input" placeholder="To: Panvel Orient Mall" name="to" required />
                     </div>
                 </div>
                 <div class="input-div pass">
@@ -129,23 +117,17 @@
                         <i class="fas fa-lock"></i>
                     </div>
                     <div class="div">
-                        <input type="password" class="input" placeholder="Password" name="password" value="{{ user_data['password'] }}" required />
+                        <input type="password" class="input" placeholder="Password" name="password" required />
                     </div>
                 </div>
-
-                {% if ActionType=='REGISTER' %}
-                    <input type="submit" class="btn" value="Register">
-                {% endif %}
-                {% if ActionType=='UPDATE' %}
-                    <input type="submit" class="btn" value="Update">
-                {% endif %}
-                
+                <input type="submit" class="btn" value="Register">
                 <a class="reg_link" href="/login">
                     <h3>Back to Login</h3>
-                <a/>
+                    <a />
             </form>
         </div>
-        <iframe id="external_site" src="https://rtovehicleinfo.onlineseva.xyz/rtovehicle.php" width="800" height="550" style="display:none;" onmouseenter="window.location.href='{{ url_for('bs') }}';"/>
     </div>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}" />
 </body>
+
 </html>
