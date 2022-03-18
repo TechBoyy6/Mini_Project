@@ -15,6 +15,8 @@ data = db['Clients']
 user_id = ''
 geolocator = Nominatim(user_agent="Carpool")
 user_Query = False
+flag = 0
+reg_no = ''
 
 
 def checkUser(username, userEmail):
@@ -147,11 +149,13 @@ def register():
     if(request.method == 'POST'):
 
         global user_id
+        global reg_no
         user_id = request.form.get('username')
         user_password = request.form.get('password')
         user_email = request.form.get('email')
+        # reg = data.find_one({'reg_no': reg_no})
         # user_already_data = data.find_one({'_id': user_id})
-
+        global flag
 
         if (not checkUser(user_id, user_email)):
             if(checkLoc(request.form.get('from'), request.form.get('to'))):
@@ -167,6 +171,18 @@ def register():
                     'to_loc': request.form.get('to').lower(),
                     'password': user_password,
                 })
+                if(flag == 1):
+                    data.update_one({'_id': user_id},
+                    {"$set":{
+                    'name': request.form.get('name'),
+                    'gender': request.form.get('gender'),
+                    'age': int(request.form.get('age')),
+                    'email': user_email,
+                    'mobile': int(request.form.get('phone')),
+                    'from_loc': request.form.get('from').lower(),
+                    'to_loc': request.form.get('to').lower(),
+                    'password': user_password,
+                    }})
                 return redirect(url_for("home"))
             return render_template("register.html", location_error="Try other Location")
         return render_template("login.html", register_error="User Already Exist")
@@ -200,8 +216,10 @@ def modify():
 def fetch():
 
     global user_id
+    global flag
+    global reg_no
     user_data = data.find_one({'_id': user_id})
-    user_data['type'] = 'owner'
+    # user_data['type'] = 'owner'
 
 
     details = {}
@@ -221,7 +239,16 @@ def fetch():
         details['insaurance_exp'] = page.query_selector(
             '//html/body/div/div/div[12]/div[2]/p').inner_text()
 
-
+        if(details):
+            flag = 1
+            data.insert_one({
+                '_id': user_id,
+                'reg_no': details['reg_no'],
+                'name': details['name'],
+                'fuel_type': details['fuel_type'],
+                'insaurance_exp': details['insaurance_exp'],
+            })
+            return render_template("owner.html")
 
     return details
 
