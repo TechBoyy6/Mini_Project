@@ -17,24 +17,22 @@
     {% endif %}
     <div class="container">
         <div class="login-content">
-            <form action='{{url_for("types")}}' method="get">
+            <form action='{{url_for("register")}}' method="get">
                 <img src="{{ url_for('static', filename='img/avatar.svg')}}">
 
                 <h2 class="title">Register</h2>
 
-                 <div class="input-div one">
-                    <div class="i">
-                        <i class="fas fa-user"></i>
-                    </div>
-                    <div class="div">
-                        <input type="text" class="input" placeholder="Username" name="username" required />
-                    </div>
+                <div class="div">
+                    <!--input type="text" class="input" placeholder="Traveller/Owner" name="user_type" required -->
+                    <select name="user_type" onchange="location = this.value">
+                        <option value ="/register/">Traveller</option>
+
+                        <option value ="/fetch" >Owner</option>
+                        
+                    </select>
                 </div>
-
-            </div>  
-            <input type="submit" class="btn" value="Next">
+            </div>        
     </div>
-
     <script type="text/javascript" src="{{ url_for('static', filename='js/main.js')}}" />
 </body>
 
