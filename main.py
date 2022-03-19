@@ -159,9 +159,8 @@ def register():
 
         if (not checkUser(user_id, user_email)):
             if(checkLoc(request.form.get('from'), request.form.get('to'))):
-                data.insert_one({
-                    '_id': user_id,
-                    'name': request.form.get('name'),
+                data.update_one({'_id': user_id},
+                    {"$set":{'name': request.form.get('name'),
                     'type': request.form.get('user_type'),
                     'gender': request.form.get('gender'),
                     'age': int(request.form.get('age')),
@@ -170,23 +169,32 @@ def register():
                     'from_loc': request.form.get('from').lower(),
                     'to_loc': request.form.get('to').lower(),
                     'password': user_password,
-                })
-                if(flag == 1):
-                    data.update_one({'_id': user_id},
-                    {"$set":{
-                    'name': request.form.get('name'),
-                    'gender': request.form.get('gender'),
-                    'age': int(request.form.get('age')),
-                    'email': user_email,
-                    'mobile': int(request.form.get('phone')),
-                    'from_loc': request.form.get('from').lower(),
-                    'to_loc': request.form.get('to').lower(),
-                    'password': user_password,
-                    }})
+                }})
                 return redirect(url_for("home"))
-            return render_template("register.html", location_error="Try other Location")
+            return render_template("owner.html", location_error="Try other Location")
         return render_template("login.html", register_error="User Already Exist")
-    return render_template('register.html', user_data = "" )
+    return render_template('owner.html', user_data = "" )
+
+@app.route('/id/', methods=['GET', 'POST'])
+def id():
+    if(request.method == 'POST'):
+        global user_id
+        user_id = request.form.get('username')
+        if(not data.find_one({"_id": user_id})):
+            data.insert_one({
+                '_id': user_id,
+            })
+    return render_template('id.html', user_data = user_id)
+
+@app.route('/type', methods=['GET', 'POST'])
+def types():
+    global user_id
+    if(user_id):
+        return render_template("type.html", user_data = user_id)
+    
+    return render_template("type.html", user_data = user_id)
+    
+
 
 @app.route('/modify/', methods=['GET', 'POST'])
 def modify():
@@ -218,7 +226,7 @@ def fetch():
     global user_id
     global flag
     global reg_no
-    user_data = data.find_one({'_id': user_id})
+    # user_data = data.find_one({'_id': user_id})
     # user_data['type'] = 'owner'
 
 
@@ -241,14 +249,14 @@ def fetch():
 
         if(details):
             flag = 1
-            data.insert_one({
-                '_id': user_id,
-                'reg_no': details['reg_no'],
+            data.update_one({
+                '_id': user_id},
+                {"$set":{'reg_no': details['reg_no'],
                 'name': details['name'],
                 'fuel_type': details['fuel_type'],
                 'insaurance_exp': details['insaurance_exp'],
-            })
-            return render_template("owner.html")
+            }})
+            return redirect(url_for("register"))
 
     return details
 
