@@ -10,9 +10,9 @@
 </head>
 
 <body>
-    {% if location_error %}
+    {% if error_msg %}
     <div class="alert-danger" role="alert">
-        <strong>{{location_error}}</strong>
+        <strong>{{error_msg}}</strong>
     </div>
     {% endif %}
     <div class="container">
