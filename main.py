@@ -17,6 +17,7 @@ geolocator = Nominatim(user_agent="Carpool")
 user_Query = False
 flag = 0
 reg_no = ''
+user_type = 'Traveller'
 
 
 def checkUser(username, userEmail):
@@ -150,32 +151,44 @@ def register():
 
         global user_id
         global reg_no
-        # user_id = request.form.get('username')
+        
         user_password = request.form.get('password')
         user_email = request.form.get('email')
-        # reg = data.find_one({'reg_no': reg_no})
-        # user_already_data = data.find_one({'_id': user_id})
+
         global flag
+        typeTr = 'Traveller'
+        typeow = 'Owner'
 
         if (not checkUser(user_id, user_email)):
             if(checkLoc(request.form.get('from'), request.form.get('to'))):
+                if(reg_no == ''):
+                    data.update_one({'_id': user_id},
+                    {"$set":{
+                        'type': typeTr,
+                        'name': request.form.get('name')
+                    }})
+                elif(reg_no):
+                    data.update_one({'_id': user_id},
+                        {"$set":{
+                            'type': typeow,
+                        }})
                 data.update_one({'_id': user_id},
-                                {"$set": {
-                                    'type': request.form.get('user_type'),
-                                    'gender': request.form.get('gender'),
-                                    'age': int(request.form.get('age')),
-                                    'email': user_email,
-                                    'mobile': int(request.form.get('phone')),
-                                    'from_loc': request.form.get('from').lower(),
-                                    'to_loc': request.form.get('to').lower(),
-                                    'password': user_password,
-                                    #   'name': request.form.get('name')
-                                }})
+                    {"$set":{
+                    # 'name': request.form.get('name'),
+                    # 'type': request.form.get('user_type'),
+                    'gender': request.form.get('gender'),
+                    'age': int(request.form.get('age')),
+                    'email': user_email,
+                    'mobile': int(request.form.get('phone')),
+                    'from_loc': request.form.get('from').lower(),
+                    'to_loc': request.form.get('to').lower(),
+                    'password': user_password,
+                }})
+
                 return redirect(url_for("home"))
             return render_template("owner.html", location_error="Try other Location")
         return render_template("login.html", register_error="User Already Exist")
-    return render_template('owner.html', user_data=user_id)
-
+    return render_template('owner.html', type = user_type )
 
 @app.route('/id/', methods=['GET', 'POST'])
 def id():
@@ -186,16 +199,17 @@ def id():
             data.insert_one({
                 '_id': user_id,
             })
-            return render_template('type.html')
-    return render_template('id.html', user_data=user_id)
+            return render_template('type.html', user_data = user_id)
+    return render_template('id.html', user_data = user_id)
 
-# @app.route('/types', methods=['GET', 'POST'])
-# def types():
-#     global user_id
-#     if(user_id):
-#         return render_template("type.html")
-
-#     return render_template("type.html")
+@app.route('/types', methods=['GET', 'POST'])
+def types():
+    global user_id
+    if(user_id):
+        return render_template("type.html")
+    
+    return render_template("type.html")
+    
 
 
 @app.route('/modify/', methods=['GET', 'POST'])
@@ -203,22 +217,21 @@ def modify():
     global user_id
     if(request.method == 'POST'):
         user_data = data.find_one({'_id': user_id})
-        # user_password = request.form.get('password')
-        # user_email = request.form.get('email')
+
         if(user_data):
             if(checkLoc(request.form.get('from'), request.form.get('to'))):
                 data.update_one({'_id': user_id},
-                                {"$set": {
-                                    'type': request.form.get('user_type'),
-                                    'age': int(request.form.get('age')),
-                                    'email': request.form.get('email'),
-                                    'mobile': int(request.form.get('phone')),
-                                    'from_loc': request.form.get('from').lower(),
-                                    'to_loc': request.form.get('to').lower(),
-                                    'password': request.form.get('password'),
+                                {"$set":{
+                                'type': request.form.get('user_type'),
+                                'age': int(request.form.get('age')),
+                                'email': request.form.get('email'),
+                                'mobile': int(request.form.get('phone')),
+                                'from_loc': request.form.get('from').lower(),
+                                'to_loc': request.form.get('to').lower(),
+                                'password': request.form.get('password'),                                    
                                 }})
                 return redirect(url_for("home"))
-            return render_template("modify.html", location_error="Try another location")
+            return render_template("modify.html", location_error = "Try another location")
     return render_template('modify.html')
 
 
@@ -228,8 +241,7 @@ def fetch():
     global user_id
     global flag
     global reg_no
-    # user_data = data.find_one({'_id': user_id})
-    # user_data['type'] = 'owner'
+    global user_type
 
     details = {}
 
@@ -244,23 +256,24 @@ def fetch():
         details['name'] = page.query_selector(
             '//html/body/div/div/div[2]/div[2]/p').inner_text()
         details['fuel_type'] = page.query_selector(
-            '//html/body/div/div/div[7]/div[2]/p').inner_text()
+                '//html/body/div/div/div[7]/div[2]/p').inner_text()
         details['insaurance_exp'] = page.query_selector(
             '//html/body/div/div/div[12]/div[2]/p').inner_text()
+        reg_no = details['reg_no']
 
         if(details):
             flag = 1
+            user_type = 'Owner'
             data.update_one({
                 '_id': user_id},
-                {"$set": {'reg_no': details['reg_no'],
-                          'name': details['name'],
-                          'fuel_type': details['fuel_type'],
-                          'insaurance_exp': details['insaurance_exp'],
-                          }})
+                {"$set":{'reg_no': details['reg_no'],
+                'name': details['name'],
+                'fuel_type': details['fuel_type'],
+                'insaurance_exp': details['insaurance_exp'],
+            }})
             return redirect(url_for("register"))
 
     return details
-
 
 if __name__ == "__main__":
     app.run(debug=True)
