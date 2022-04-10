@@ -4,7 +4,7 @@
 
 body,
 html {
-  background: url(../img/bg.jpg);
+  background: url(../img/bg.webp);
   background-size: cover;
   height: 100%;
   width: 100%;
@@ -18,31 +18,30 @@ html {
   line-height: 0 !important; /* line-height is edited for each text container */
 }
 
-.content{
+.content {
   width: 800px;
   padding: 10px;
 }
 
-.connectFormbtn{
+.connectFormbtn {
   padding: 0px;
 }
 
-.alert-danger{
-	padding: 15px;
-	color: palevioletred;
-	font-size: large;
-	background-color: pink;
+.alert-danger {
+  padding: 15px;
+  color: palevioletred;
+  font-size: large;
+  background-color: pink;
 }
 
-.login-content{
-	display: flex;
-	justify-content: flex-start;
-	align-items: center;
-	text-align: center;
+.login-content {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  text-align: center;
 }
 
-
-.my-button{
+.my-button {
   position: inherit;
   top: 40%;
   left: 40%;
@@ -54,22 +53,23 @@ html {
   padding: 5px;
 }
 
-.table{
+.table {
   width: 100%;
   border-collapse: collapse;
   border-radius: 10px;
 }
-th,td{
+th,
+td {
   border-collapse: collapse;
   border: 1px solid #000000;
   padding: 10px;
 }
-th{
+th {
   background: #2b3336;
   color: #ededed;
   padding: 27px;
 }
-td{
+td {
   background: #ededed;
   color: #000000;
 }
