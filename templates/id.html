@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>/aRide</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/login.css')}}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/a81368914c.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+
+  <body>
+    {% if location_error %}
+    <div class="alert-danger" role="alert">
+      <strong>{{location_error}}</strong>
+    </div>
+    {% endif %}
+    <div class="container">
+      <div class="login-content">
+        <form action="{{url_for('id')}}" method="post">
+          <img src="{{ url_for('static', filename='img/avatar.svg')}}" />
+
+          <h2 class="title">Register</h2>
+
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="div">
+              <input
+                type="text"
+                class="input"
+                placeholder="Username"
+                name="username"
+                required
+              />
+            </div>
+          </div>
+          <input type="submit" class="btn" value="Next" />
+        </form>
+      </div>
+    </div>
+
+    <script
+      type="text/javascript"
+      src="{{ url_for('static', filename='js/main.js')}}"
+    />
+  </body>
+</html>
