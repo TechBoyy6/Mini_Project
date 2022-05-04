@@ -46,8 +46,9 @@ def genMap(userData, ownerData):
     values['distanceBtw'] = checkLoc(userFrom, ownerFrom)
     values['timeTaken'] = values['distanceBtw']/40
     values['cost'] = values['distanceBtw']*100
-    values['Insuarance_Exp'] = ownerData['insaurance_exp']
-    values['Vehicle_Reg'] = ownerData['reg_no']
+    if user_type == 'Owner':
+        values['Insuarance_Exp'] = ownerData['insaurance_exp']
+        values['Vehicle_Reg'] = ownerData['reg_no']
 
     user = geolocator.geocode(userFrom)
     owner = geolocator.geocode(ownerFrom)
@@ -170,6 +171,7 @@ def register():
                                     'from_loc': request.form.get('from').lower(),
                                     'to_loc': request.form.get('to').lower(),
                                     'password': user_password,
+                                    'history': {}
                                 }})
 
                 return redirect(url_for("home"))

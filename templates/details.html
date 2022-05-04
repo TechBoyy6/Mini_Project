@@ -82,7 +82,7 @@
                         <p><span>Name: </span>{{ ownerData['name'] }}</p>
                       </div>
                     </div>
-
+                    {% if travelVal['Vehicle_Reg'] == "" %}
                     <div class="dbox w-100 d-flex align-items-center">
                       <div
                         class="icon d-flex align-items-center justify-content-center"
@@ -110,7 +110,7 @@
                         </p>
                       </div>
                     </div>
-
+                    {% endif %}
                     <div class="dbox w-100 d-flex align-items-center">
                       <div
                         class="icon d-flex align-items-center justify-content-center"

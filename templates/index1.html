@@ -35,7 +35,7 @@
     {% if userID %}
 
     <div class="login-content">
-      <a href="/login" title="Log out"
+      <a href="/modify/" title="Profile"
         ><img
           src="{{ url_for('static', filename='img/avatar.svg')}}"
           style="width: 70px; padding-left: 15px; padding-top: 5px"
@@ -45,8 +45,7 @@
       </h2>
 
       <sup
-        ><a href="/modify/"
-          ><i class="fa fa-pencil" title="Modify your Details"></i></a
+        ><a href="/login"><i class="fa fa-sign-out" title="Log Out"></i></a
       ></sup>
       <h2
         style="
